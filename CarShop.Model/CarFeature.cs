@@ -11,11 +11,17 @@ namespace CarShop.Model
 
         [MaxLength(100)]
         public string Name { get; set; }
+
+        [MaxLength(1000)]
+        public string Description { get; set; }
+
+        public CarFeatureType CarFeatureType { get; set; }
     }
 
     public enum CarFeatureType : int
     {
         EnginePerfomance,
-
+        Disks,
+        ExtraOptions
     }
 }
