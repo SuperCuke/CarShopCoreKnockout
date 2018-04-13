@@ -18,8 +18,8 @@ namespace CarShop.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CarModel>()
-               .HasOne<CarCompany>(s => s.CarCompany)
-               .WithMany(c => c.CarModels);
+            .HasOne<CarCompany>(s => s.CarCompany)
+            .WithMany(c => c.CarModels);
 
             modelBuilder.Entity<CarFeatureModel>()
             .HasOne<CarModel>(s => s.CarModel)

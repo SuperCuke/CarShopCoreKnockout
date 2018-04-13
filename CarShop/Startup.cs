@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CarShop.Model;
+using CarShop.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -34,6 +36,19 @@ namespace CarShop
             var connection = config.GetConnectionString("CarShopDB");
 
             services.AddDbContext<CarDbContext>(options => options.UseSqlServer(connection));
+            services.AddSingleton<IMapper>(_prepareMapper());
+        }
+
+        private static IMapper _prepareMapper()
+        {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<CarCompany, CarCompanyDataView>();
+                cfg.CreateMap<CarModel, CarModelDataView>();
+            });
+
+            IMapper mapper = new Mapper(mapperConfig);
+            return mapper;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
