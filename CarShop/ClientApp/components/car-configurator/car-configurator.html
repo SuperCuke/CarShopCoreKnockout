@@ -1,0 +1,13 @@
+<div data-bind="with: CarModel">
+    <div class="container marketing">
+        <h1 data-bind="text: carCompany.name + ' ' + name"></h1>
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <p class="lead" data-bind="text: longDescription"></p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img class="featurette-image img-fluid mx-auto" style="max-width: 500px; max-height: 500px;" data-bind="attr:{'src': '/carImages/' + imagePath}">
+            </div>
+        </div>
+    </div>
+</div>

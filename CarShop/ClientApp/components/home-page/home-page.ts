@@ -26,7 +26,6 @@ class HomePageViewModel {
     async initialize() {
         this._allCars(await httpClient.get<ICarModel[]>('/api/cars'));
         this.AllCompanies(await httpClient.get<ICarCompany[]>('/api/CarCompanies'));
-        console.log(this._allCars());
     }
 }
 

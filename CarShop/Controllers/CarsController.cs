@@ -41,7 +41,9 @@ namespace CarShop.Controllers
         [Route("api/[controller]/{id}")]
         public CarModelDataView GetDetails(int id)
         {
-            var carModel = _dbContaxt.CarModels.FirstOrDefault(c => c.Id == id);
+            var carModel = _dbContaxt.CarModels
+                .Include(c => c.CarCompany)
+                .FirstOrDefault(c => c.Id == id);
 
             if (carModel == null)
                 return null; //TODO: add middleware for exception handling
