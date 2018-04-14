@@ -45,10 +45,14 @@ namespace CarShop
             {
                 cfg.CreateMap<CarCompany, CarCompanyDataView>();
                 cfg.CreateMap<CarModel, CarModelDataView>();
+                cfg.CreateMap<CarFeatureModel, CarFeatureDataView>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CarFeature.Description))
+                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CarFeature.Name))
+                    .ForMember(dest => dest.CarFeatureType, opt => opt.MapFrom(src => src.CarFeature.CarFeatureType));
             });
 
-            IMapper mapper = new Mapper(mapperConfig);
-            return mapper;
+            return new Mapper(mapperConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

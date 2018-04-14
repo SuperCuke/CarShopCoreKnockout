@@ -44,5 +44,10 @@ namespace CarShop.Model
             .HasForeignKey(bc => bc.FeatureModelId);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=.;Database=CarShopDB;Trusted_Connection=True;");
+        }
+
     }
 }

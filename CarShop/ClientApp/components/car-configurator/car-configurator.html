@@ -1,13 +1,102 @@
-<div data-bind="with: CarModel">
+<div data-bind="if: IsDataReady">
     <div class="container marketing">
-        <h1 data-bind="text: carCompany.name + ' ' + name"></h1>
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <p class="lead" data-bind="text: longDescription"></p>
+        <div data-bind="with: CarModel">
+            <h1 data-bind="text: carCompany.name + ' ' + name"></h1>
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <p class="lead" data-bind="text: longDescription"></p>
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <img class="featurette-image img-fluid mx-auto" style="max-width: 500px; max-height: 500px;" data-bind="attr:{'src': '/carImages/' + imagePath}">
+                </div>
             </div>
-            <div class="col-md-5 order-md-1">
-                <img class="featurette-image img-fluid mx-auto" style="max-width: 500px; max-height: 500px;" data-bind="attr:{'src': '/carImages/' + imagePath}">
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-8 order-md-1">
+                <form>
+                    <div data-bind="with: EngineOptionGroup">
+                        <h4>Choose desired power</h4>
+                        <div data-bind="foreach: Options">
+                            <div class="radio">
+                                <label><input type="radio" name="engine" data-bind="checkedValue: $data, checked: $parent.SelectedOption" /><span data-bind="text: data.description"></span> - <span data-bind="text: data.price"></span> EUR</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div data-bind="with: ColorOptionGroup">
+                        <h4>Choose desired color</h4>
+                        <div data-bind="foreach: Options">
+                            <div class="radio">
+                                <label><input type="radio" name="color" data-bind="checkedValue: $data, checked: $parent.SelectedOption" /><span data-bind="text: data.description"></span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div data-bind="with: DisksOptionGroup">
+                        <h4>Choose desired disks</h4>
+                        <div data-bind="foreach: Options">
+                            <div class="radio">
+                                <label><input type="radio" name="disk" data-bind="checkedValue: $data, checked: $parent.SelectedOption" /><span data-bind="text: data.description"></span> - <span data-bind="text: data.price"></span> EUR</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div data-bind="with: ExtraOptionGroup, validationElement: SelectedExtraOptionsCount">
+                        <h4>Choose extra options</h4>
+                        <div data-bind="foreach: Options">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="" data-bind="checked: isSelected">
+                                    <span data-bind="text: data.description"></span> - <span data-bind="text: data.price"></span> EUR
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0" data-bind="text:  CarModel.carCompany.name + ' ' + CarModel.name + '- basic price'"></h6>
+                        </div>
+                        <span class="text-muted" data-bind="text: CarModel.basePrice + ' EUR'  "></span>
+                    </li>
+                    <div data-bind="foreach: SelectedFeatures">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0" data-bind="text: data.description"></h6>
+                            </div>
+                            <span class="text-muted" data-bind="text: data.price + ' EUR'"></span>
+                        </li>
+                    </div>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (EUR):</span>
+                        <strong data-bind="text: TotalPrice"></strong>
+                    </li>
+                </ul>
+                <form class="card  p-2">
+                    <div class="form-group" data-bind="validationElement: Email">
+
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" placeholder="Enter email" data-bind="textInput: Email">
+                    </div>
+                    <div class="form-group" data-bind="validationElement: FullName">
+                        <label for="exampleInputPassword1">Name</label>
+                        <input type="text" class="form-control" placeholder="Emter full name" data-bind="textInput: FullName">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-append">
+                            <button data-bind="css: {'disabled': !ValidationModel.isValid()}" type="submit" class="btn btn-secondary">Place order</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>

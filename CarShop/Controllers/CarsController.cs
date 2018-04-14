@@ -43,6 +43,8 @@ namespace CarShop.Controllers
         {
             var carModel = _dbContaxt.CarModels
                 .Include(c => c.CarCompany)
+                .Include(c => c.SupportedFeatures)
+                  .ThenInclude(f => f.CarFeature)
                 .FirstOrDefault(c => c.Id == id);
 
             if (carModel == null)

@@ -22,6 +22,7 @@ namespace CarShop.Model
     {
         EnginePerfomance,
         Disks,
-        ExtraOptions
+        ExtraOptions,
+        Color
     }
 }

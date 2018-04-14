@@ -15,5 +15,7 @@ namespace CarShop.Models
         public string LongDescription { get; set; }
         public decimal BasePrice { get; set; }
         public string ImagePath { get; set; }
+
+        public List<CarFeatureDataView> SupportedFeatures { get; set; }
     }
 }

@@ -17,7 +17,7 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            vendor: ['bootstrap', 'bootstrap/dist/css/bootstrap.css', 'knockout', 'crossroads', 'event-source-polyfill', 'history', 'isomorphic-fetch', 'jquery'],
+            vendor: ['bootstrap', 'bootstrap/dist/css/bootstrap.css', 'knockout', 'knockout.validation', 'crossroads', 'event-source-polyfill', 'history', 'isomorphic-fetch', 'jquery'],
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
