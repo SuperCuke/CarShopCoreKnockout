@@ -1,16 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using CarShop.Model;
 using CarShop.Models;
+using CarShop.Services;
+using CarShop.Services.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace CarShop
 {
@@ -36,6 +35,7 @@ namespace CarShop
             var connection = config.GetConnectionString("CarShopDB");
 
             services.AddDbContext<CarDbContext>(options => options.UseSqlServer(connection));
+            services.AddTransient<ICarOrderService, CarOrderService>();
             services.AddSingleton<IMapper>(_prepareMapper());
         }
 
@@ -50,6 +50,18 @@ namespace CarShop
                     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CarFeature.Description))
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CarFeature.Name))
                     .ForMember(dest => dest.CarFeatureType, opt => opt.MapFrom(src => src.CarFeature.CarFeatureType));
+                cfg.CreateMap<CarOrderFeature, CarFeatureDataView>()
+                   .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CarFeatureModel.Id))
+                   .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.CarFeatureModel.Price))
+                   .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CarFeatureModel.CarFeature.CarFeatureType))
+                   .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CarFeatureModel.CarFeature.Name))
+                   .ForMember(dest => dest.CarFeatureType, opt => opt.MapFrom(src => src.CarFeatureModel.CarFeature.CarFeatureType));
+
+                cfg.CreateMap<OrderDataView, CarOrderData>()
+                    .ForMember(dest => dest.CarModelId, opt => opt.MapFrom(src => src.CarModel.Id))
+                    .ForMember(dest => dest.SelectedFeaturesIds, opt => opt.MapFrom(src => src.CarFeatures.Select(x => x.Id).ToList()));
+
+                cfg.CreateMap<CarOrder, OrderDataView>();
             });
 
             return new Mapper(mapperConfig);

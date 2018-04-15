@@ -1,0 +1,32 @@
+<div data-bind="if: IsDataReady">
+    <div class="container marketing">
+        <h1>Order Details #<span data-bind="text: OrderData.id"></span></h1>
+    </div>
+    <h2>Personal info</h2>
+    <table class="table table-condensed">
+        <tbody>
+            <tr>
+                <td>Full Name</td>
+                <td data-bind="text: OrderData.fullName"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td data-bind="text: OrderData.email"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Car info</h2>
+    <table class="table table-condensed">
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td data-bind="text: OrderData.carModel.carCompany.name + ' ' + OrderData.carModel.name"></td>
+            </tr>
+            <tr>
+                <td>Base price</td>
+                <td data-bind="text: OrderData.carModel.basePrice"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -26,7 +26,7 @@ class CarConfiguratorViewModel {
     constructor(params: any) {
         this.IsDataReady = ko.observable(false);
         this.initialize(params.id);
-    } 
+    }
 
     async initialize(id: number) {
         var data = await httpClient.get<ICarModel>('/api/cars/' + id)
@@ -56,11 +56,24 @@ class CarConfiguratorViewModel {
 
         this.IsDataReady(true);
     }
-} 
+
+    public async SaveOrder() {
+        if (!this.ValidationModel.isValid()) return;
+
+        var response = await httpClient.post<IRedurectModel>('/api/carorders', {
+            CarModel: { Id: this.CarModel.id },
+            CarFeatures: this.SelectedFeatures().map(f => <any>{ Id: f.data.id }),
+            FullName: this.FullName(),
+            Email: this.Email()
+        });
+
+        window.location.href = response.uri;
+    }
+}
 
 class OptionGroup {
     constructor(carFeatureType: CarFeatureType, carFeatures: KnockoutObservableArray<CarFeature>, onlyOne: boolean = true) {
-        this.Options =  carFeatures().filter(f => f.data.carFeatureType == carFeatureType);
+        this.Options = carFeatures().filter(f => f.data.carFeatureType == carFeatureType);
         if (onlyOne) {
             this.SelectedOption = ko.observable(this.Options[0]);
             this.Options[0].isSelected(true);

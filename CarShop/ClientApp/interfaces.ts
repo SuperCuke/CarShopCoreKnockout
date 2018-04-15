@@ -23,6 +23,18 @@ interface ICarFeature {
     carFeatureType: CarFeatureType;
 }
 
+interface IOrderData {
+    id: number;
+    fullName: string;
+    email: string;
+    carModel: ICarModel;
+    carFeatures: ICarFeature[];
+}
+
+interface IRedurectModel {
+    uri: string;
+}
+
 const enum CarFeatureType {
     EnginePerfomance = 0,
     Disks = 1,

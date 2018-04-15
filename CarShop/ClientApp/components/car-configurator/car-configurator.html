@@ -91,7 +91,7 @@
                     </div>
                     <div class="input-group">
                         <div class="input-group-append">
-                            <button data-bind="css: {'disabled': !ValidationModel.isValid()}" type="submit" class="btn btn-secondary">Place order</button>
+                            <button data-bind="css: {'disabled': !ValidationModel.isValid()}, click: SaveOrder" type="submit" class="btn btn-secondary">Place order</button>
                         </div>
                     </div>
                 </form>
