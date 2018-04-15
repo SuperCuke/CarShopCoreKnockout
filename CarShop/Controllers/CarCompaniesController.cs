@@ -18,8 +18,8 @@ namespace CarShop.Controllers
 
         public CarCompaniesController(CarDbContext dbContaxt, IMapper mapper)
         {
-            _dbContaxt = dbContaxt;
             _mapper = mapper;
+            _dbContaxt = dbContaxt;
         }
 
 

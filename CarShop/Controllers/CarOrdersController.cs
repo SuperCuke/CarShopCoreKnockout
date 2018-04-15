@@ -38,6 +38,7 @@ namespace CarShop.Controllers
                     .ThenInclude(m => m.CarCompany)
                  .Include(o => o.CarFeatures)
                     .ThenInclude(f => f.CarFeatureModel)
+                      .ThenInclude(cf => cf.CarFeature)
                  .FirstOrDefault(o => o.Id == id && o.SecureCode == secureCode);
 
             if (order == null)
@@ -52,7 +53,7 @@ namespace CarShop.Controllers
         public async Task<RedirectModel> Post([FromBody] OrderDataView order)
         {
             var result = await _carOrderService.CreateCarOrder(_mapper.Map<CarOrderData>(order));
-            return new RedirectModel() { Uri = $"/order-details/{result.Id}/?secureCode={Uri.EscapeDataString(result.SecureCode)}" };
+            return new RedirectModel() { Uri = $"/order-details/{result.Id}/?secureCode={result.SecureCode}" };
         }
     }
 }

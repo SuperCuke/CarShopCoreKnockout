@@ -29,4 +29,14 @@
             </tr>
         </tbody>
     </table>
+
+    <h2>Options info</h2>
+    <table class="table table-condensed">
+        <tbody data-bind="foreach: OrderData.carFeatures">
+            <tr>
+                <td data-bind="text: description"></td>
+                <td data-bind="text: price"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

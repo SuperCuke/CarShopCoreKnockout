@@ -54,7 +54,9 @@ namespace CarShop.Services
                 byte[] tokenData = new byte[32];
                 rng.GetBytes(tokenData);
 
-                return Convert.ToBase64String(tokenData);
+                var rez=  Convert.ToBase64String(tokenData);
+                rez = rez.Replace("/", "").Replace("-", "").Replace("+", "").Replace("=", "");
+                return rez;
             }
         }
     }

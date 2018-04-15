@@ -31,14 +31,7 @@ namespace CarShop
         {
             services.AddMvc();
 
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables();
-
-            var config = builder.Build();
-            var connection = config.GetConnectionString("CarShopDB");
-
-            services.AddDbContext<CarDbContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<CarDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CarShopDB")));
             services.AddTransient<ICarOrderService, CarOrderService>();
             services.AddSingleton<IMapper>(_prepareMapper());
 
@@ -68,7 +61,7 @@ namespace CarShop
                 cfg.CreateMap<CarOrderFeature, CarFeatureDataView>()
                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CarFeatureModel.Id))
                    .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.CarFeatureModel.Price))
-                   .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CarFeatureModel.CarFeature.CarFeatureType))
+                   .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CarFeatureModel.CarFeature.Description))
                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CarFeatureModel.CarFeature.Name))
                    .ForMember(dest => dest.CarFeatureType, opt => opt.MapFrom(src => src.CarFeatureModel.CarFeature.CarFeatureType));
 
@@ -85,7 +78,7 @@ namespace CarShop
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
+          
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -100,7 +93,7 @@ namespace CarShop
             }
 
             app.UseStaticFiles();
-
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
