@@ -3,13 +3,17 @@ using CarShop.Model;
 using CarShop.Models;
 using CarShop.Services;
 using CarShop.Services.Models;
+using log4net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Xml;
 
 namespace CarShop
 {
@@ -37,6 +41,17 @@ namespace CarShop
             services.AddDbContext<CarDbContext>(options => options.UseSqlServer(connection));
             services.AddTransient<ICarOrderService, CarOrderService>();
             services.AddSingleton<IMapper>(_prepareMapper());
+
+
+            XmlDocument log4netConfig = new XmlDocument();
+            log4netConfig.Load(File.OpenRead("log4net.config"));
+
+            var repo = log4net.LogManager.CreateRepository(
+                Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
+
+            log4net.Config.XmlConfigurator.Configure(repo, log4netConfig["log4net"]);
+            log4net.LogManager.GetLogger(typeof(Program));
+            services.AddSingleton<ILog>(log4net.LogManager.GetLogger(typeof(Program)));
         }
 
         private static IMapper _prepareMapper()

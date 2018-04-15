@@ -1,5 +1,7 @@
 ﻿using CarShop.Model;
 using CarShop.Services.Models;
+using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,14 +12,19 @@ namespace CarShop.Services
     public class CarOrderService : ICarOrderService
     {
         private CarDbContext _dbContext;
+        private ILog _logger;
 
-        public CarOrderService(CarDbContext dbContext)
+        public CarOrderService(CarDbContext dbContext, ILog logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<CarOrder> CreateCarOrder(CarOrderData data)
         {
+            _logger.Info("Creating car order");
+            _logger.Info(JsonConvert.SerializeObject(data));
+
             var carModel = _dbContext.CarModels.FirstOrDefault(c => c.Id == data.CarModelId);
 
             if (carModel == null)
